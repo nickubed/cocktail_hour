@@ -1,0 +1,16 @@
+<% if(ingredients){ %>
+<ul>
+<% ingredients.forEach(i => { %>
+        <li><%= i.name %></li>
+        <form method="POST" action="/ingredients/<%= i.id %>/?_method=DELETE">
+            <input type="submit" value="remove">
+        </form>
+<% }) %>
+</ul>
+<% } %>
+
+<h2>Add an ingredient!</h2>
+<form method="POST" action="/ingredients/">
+    <input type="text" name="name">
+    <input type="submit" value="Submit">
+</form>

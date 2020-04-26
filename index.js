@@ -4,11 +4,16 @@ let axios = require('axios')
 let db = require('./models')
 let ejsLayouts = require('express-ejs-layouts')
 let express = require('express')
+let method = require('method-override')
 
 let app = express()
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
+app.use(ejsLayouts)
+app.use(method('_method'))
+
+app.use('/ingredients', require('./controllers/ingredients'))
 
 app.get('/', (req, res) => {
     res.render('home')
