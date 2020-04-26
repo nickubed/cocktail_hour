@@ -22,26 +22,6 @@ router.get('/', (req, res) => {
             axios.get(url + `filter.php?i=${i.name}`)
             .then(response => {
                 bigList.push(response.data.drinks)
-                bigList.forEach(item => {
-                    async.forEach(item, (d, done) => {
-                        // console.log(url + `lookup.php?i=${d.idDrink}`)
-                        axios.get(url + `lookup.php?i=${d.idDrink}`)
-                        .then(response => {
-                            // console.log(response.data.drinks[0])
-                            if(response.data.drinks){
-                                lilList.push(response.data.drinks[0].strDrink)
-                            }
-                            done()
-                        })
-                        .catch(err => {
-                            console.log(err)
-                        })
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        res.send('error')
-                    })
-                })
                 done()
             })
             .catch(err => {
@@ -50,7 +30,7 @@ router.get('/', (req, res) => {
             })
         })
         .then(() => {
-            res.send(lilList)
+            res.send(bigList)
         })
         .catch(err => {
             console.log(err)
