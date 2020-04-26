@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(ejsLayouts)
 app.use(method('_method'))
 
+app.use('/cocktails', require('./controllers/cocktails'))
 app.use('/ingredients', require('./controllers/ingredients'))
 
 app.get('/', (req, res) => {
