@@ -1,0 +1,6 @@
+<h1>Cocktails featuring <%= query %></h1>
+<% list.forEach(c => { %>
+    <div>
+        <p><a href="/<%= c.idDrink %>"><%= c.strDrink %></a></p>
+    </div>
+<% }) %>

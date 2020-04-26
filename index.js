@@ -13,14 +13,23 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/list', (req, res) => {
-    axios.get('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin')
+app.get('/search', (req, res) => {
+    let query = req.query.ingredient
+    axios.get(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${query}`)
     .then(response => {
-        res.send(response.data)
+        cocktailList = response.data.drinks
+        res.render('cocktails/list', { list: cocktailList, query })
     })
     .catch(err => {
         console.log(err)
         res.send('error')
+    })
+})
+
+app.get('/:id', (req, res) => {
+    axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${req.params.id}`)
+    .then(response => {
+        res.send(response.data)
     })
 })
 
