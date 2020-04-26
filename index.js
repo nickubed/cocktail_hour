@@ -1,4 +1,5 @@
 require('dotenv').config()
+let async = require('async')
 let axios = require('axios')
 let db = require('./models')
 let ejsLayouts = require('express-ejs-layouts')
@@ -29,7 +30,8 @@ app.get('/search', (req, res) => {
 app.get('/:id', (req, res) => {
     axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${req.params.id}`)
     .then(response => {
-        res.send(response.data)
+        details = response.data.drinks[0]
+        res.render('cocktails/show', details)
     })
 })
 

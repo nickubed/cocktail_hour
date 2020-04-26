@@ -1,6 +1,12 @@
 <h1>Cocktails featuring <%= query %></h1>
+<% if(list) { %>
 <% list.forEach(c => { %>
     <div>
         <p><a href="/<%= c.idDrink %>"><%= c.strDrink %></a></p>
     </div>
 <% }) %>
+<% } else { %>
+    <div>
+        <h2>No cocktails contain <%= query %></h2>
+    </div>
+<% } %>
