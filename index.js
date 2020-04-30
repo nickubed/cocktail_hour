@@ -5,6 +5,7 @@ let db = require('./models')
 let ejsLayouts = require('express-ejs-layouts')
 let express = require('express')
 let method = require('method-override')
+let url = `https://www.thecocktaildb.com/api/json/v2/${process.env.API_KEY}/`
 
 let app = express()
 
@@ -21,11 +22,19 @@ app.get('/', (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-    let query = req.query.ingredient
-    axios.get(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${query}`)
+    let query = req.query.ingredient.split(',')
+    let stickup = []
+    query.forEach(element => {
+        element = element.trim()
+        stickup.push(element)
+    })
+    stickup = stickup.join()
+    console.log('stickup!', stickup)
+    axios.get(url + `filter.php?i=${stickup}`)
     .then(response => {
         cocktailList = response.data.drinks
         res.render('cocktails/list', { list: cocktailList, query })
+        //res.send(cocktailList)
     })
     .catch(err => {
         console.log(err)
@@ -34,7 +43,7 @@ app.get('/search', (req, res) => {
 })
 
 app.get('/:id', (req, res) => {
-    axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${req.params.id}`)
+    axios.get(url + `lookup.php?i=${req.params.id}`)
     .then(response => {
         details = response.data.drinks[0]
         res.render('cocktails/show', details)
